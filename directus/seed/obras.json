@@ -1,236 +1,344 @@
 [
   {
     "status": "draft",
-    "titulo": "El costo de la distracción",
     "slug": "el-costo-de-la-distraccion",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 1500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 1
+    "orden": 1,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "El costo de la distracción",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "TransfHerencia",
     "slug": "transfherencia",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 2
+    "orden": 2,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "TransfHerencia",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "¿Quien es el ladrón?",
     "slug": "quien-es-el-ladron",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 1500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 3
+    "orden": 3,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "¿Quien es el ladrón?",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Remisión",
     "slug": "remision",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 4
+    "orden": 4,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Remisión",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Somos",
     "slug": "somos",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 5
+    "orden": 5,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Somos",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Japon envejece I",
     "slug": "japon-envejece-i",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 1500,
     "estado": "agotado",
-    "descripcion": null,
     "imagen": null,
-    "orden": 6
+    "orden": 6,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Japon envejece I",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Japon envejece II",
     "slug": "japon-envejece-ii",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 7
+    "orden": 7,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Japon envejece II",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Introspección",
     "slug": "introspeccion",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 1500,
     "estado": "agotado",
-    "descripcion": null,
     "imagen": null,
-    "orden": 8
+    "orden": 8,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Introspección",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Retrospección",
     "slug": "retrospeccion",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 1500,
     "estado": "agotado",
-    "descripcion": null,
     "imagen": null,
-    "orden": 9
+    "orden": 9,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Retrospección",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Apropiación",
     "slug": "apropiacion",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 10
+    "orden": 10,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Apropiación",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Esto no es una pava",
     "slug": "esto-no-es-una-pava",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 11
+    "orden": 11,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Esto no es una pava",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Esto es una pava",
     "slug": "esto-es-una-pava",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 12
+    "orden": 12,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Esto es una pava",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Esto no se si es una pava",
     "slug": "esto-no-se-si-es-una-pava",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 13
+    "orden": 13,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Esto no se si es una pava",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Azul",
     "slug": "azul",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 14
+    "orden": 14,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Azul",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Azul II",
     "slug": "azul-ii",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 15
+    "orden": 15,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Azul II",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Nace hembra",
     "slug": "nace-hembra",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 16
+    "orden": 16,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Nace hembra",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "nena o nene",
     "slug": "nena-o-nene",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 17
+    "orden": 17,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "nena o nene",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   },
   {
     "status": "draft",
-    "titulo": "Mar disecado",
     "slug": "mar-disecado",
     "anio": null,
-    "tecnica": null,
     "medidas": null,
     "precio": 2500,
     "estado": "disponible",
-    "descripcion": null,
     "imagen": null,
-    "orden": 18
+    "orden": 18,
+    "translations": [
+      {
+        "languages_code": "es",
+        "titulo": "Mar disecado",
+        "tecnica": null,
+        "descripcion": null,
+        "alt_imagen": null
+      }
+    ]
   }
 ]

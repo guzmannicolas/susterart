@@ -1,46 +1,66 @@
 [
   {
-    "nombre": "Breve historia del arte",
     "modalidad": "online",
     "inicio": "2023-04-01",
-    "duracion": "2 meses",
-    "horario": "Miércoles 19:00 a 21:00",
     "precio": 30000,
     "moneda": "ARS",
     "activo": false,
-    "descripcion": "- **Edad Antigua:** Mesopotamia, Egipto, Grecia, Roma\n- **Edad Media:** bizantino, románico, gótico\n- **Edad Moderna:** Renacimiento, Manierismo, Barroco, Rococó, Neoclásico\n- **Edad Contemporánea:** actualidad y tendencias"
+    "translations": [
+      {
+        "languages_code": "es",
+        "nombre": "Breve historia del arte",
+        "duracion": "2 meses",
+        "horario": "Miércoles 19:00 a 21:00",
+        "descripcion": "- **Edad Antigua:** Mesopotamia, Egipto, Grecia, Roma\n- **Edad Media:** bizantino, románico, gótico\n- **Edad Moderna:** Renacimiento, Manierismo, Barroco, Rococó, Neoclásico\n- **Edad Contemporánea:** actualidad y tendencias"
+      }
+    ]
   },
   {
-    "nombre": "Historia del arte feminista",
     "modalidad": "presencial",
     "inicio": "2023-03-14",
-    "duracion": "3 meses",
-    "horario": "Lunes 19:00 a 21:00",
     "precio": 15000,
     "moneda": "ARS",
     "activo": false,
-    "descripcion": null
+    "translations": [
+      {
+        "languages_code": "es",
+        "nombre": "Historia del arte feminista",
+        "duracion": "3 meses",
+        "horario": "Lunes 19:00 a 21:00",
+        "descripcion": null
+      }
+    ]
   },
   {
-    "nombre": "Crea tu propia historia",
     "modalidad": null,
     "inicio": null,
-    "duracion": null,
-    "horario": null,
     "precio": null,
     "moneda": null,
     "activo": false,
-    "descripcion": null
+    "translations": [
+      {
+        "languages_code": "es",
+        "nombre": "Crea tu propia historia",
+        "duracion": null,
+        "horario": null,
+        "descripcion": null
+      }
+    ]
   },
   {
-    "nombre": "Club Didáctico",
     "modalidad": "presencial",
     "inicio": null,
-    "duracion": "3 meses",
-    "horario": "Viernes 17:00 a 20:00",
     "precio": 15000,
     "moneda": "ARS",
     "activo": false,
-    "descripcion": "Propuesta: juegos, arte dramático, visual, literario, audiovisual, musical, iniciación a oficios.\n\n_REVISAR: el sitio original dice inicio \"14/0/2023\" (fecha inválida)._"
+    "translations": [
+      {
+        "languages_code": "es",
+        "nombre": "Club Didáctico",
+        "duracion": "3 meses",
+        "horario": "Viernes 17:00 a 20:00",
+        "descripcion": "Propuesta: juegos, arte dramático, visual, literario, audiovisual, musical, iniciación a oficios.\n\n_REVISAR: el sitio original dice inicio \"14/0/2023\" (fecha inválida)._"
+      }
+    ]
   }
 ]

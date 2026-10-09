@@ -4,14 +4,18 @@ Portfolio de **Belen Sustersic**, artista visual. Sitio estático hecho con [Ast
 
 Secciones: Inicio, Obras (con ficha por obra), Cursos, Blog, CV y Contacto.
 
+**Multilingüe:** español (`/es`, por defecto), inglés (`/en`) y alemán suizo (`/gsw`). La raíz `/` redirige según el idioma del navegador. **Todas las imágenes** (obras, portada, blog, favicon e imagen para compartir) y sus textos alternativos se administran en Directus.
+
 ## Estructura
 
 ```
 src/
-  components/   Header, Footer, ObraCard, ObraGrid, DirectusImage, YouTube
-  layouts/      BaseLayout (head, SEO, salto al contenido)
-  lib/          directus.ts (cliente), content.ts (consultas), types.ts, markdown.ts, format.ts
-  pages/        index, obras/, cursos, blog/, cv, contacto, 404
+  components/   Header (con selector de idioma), Footer, ObraCard, ObraGrid, DirectusImage, YouTube
+  i18n/         config.ts (idiomas), ui.ts (textos fijos es/en/gsw), url.ts
+  layouts/      BaseLayout (head, SEO, hreflang, salto al contenido)
+  lib/          directus.ts (cliente), content.ts (consultas por idioma), i18n-content.ts (respaldo a español),
+                types.ts, markdown.ts, format.ts
+  pages/        index (redirección por idioma), 404, [lang]/{index, obras/, cursos, blog/, cv, contacto}
   styles/       global.css
 directus/       Propuesta de modelo de datos + contenido inicial (seed/*.json)
 ```
@@ -41,6 +45,8 @@ Si falta `PUBLIC_DIRECTUS_URL` el build falla con un mensaje claro.
 2. Crear las colecciones y cargar `directus/seed/*.json`.
 3. Crear un rol de solo lectura + usuario con token estático (ver propuesta) y darle permiso *Read* al rol *Public* sobre `directus_files` para que se vean las imágenes.
 
+**Idiomas:** el contenido usa el patrón estándar de traducciones de Directus (colecciones `*_translations`, códigos `es`, `en`, `gsw`). Si falta una traducción, se muestra el español campo por campo; una obra o entrada sin título en español no se publica. Los textos fijos de la interfaz están en `src/i18n/ui.ts` (los de `en` y `gsw` son borradores a revisar).
+
 El sitio solo muestra obras, entradas y CV con `status = published`, y cursos con `activo = true`. Lo que falte confirmar queda en borrador.
 
 ## Despliegue en Vercel
@@ -54,4 +60,4 @@ El sitio solo muestra obras, entradas y CV con `status = published`, y cursos co
 
 HTML semántico, enlace "Saltar al contenido", foco visible, `aria-current` en la navegación, contraste alto (modo claro y oscuro), `alt` en imágenes, videos con `title` y `youtube-nocookie`, respeto de `prefers-reduced-motion`.
 
-> Las imágenes de obras **no** se incluyen en el repositorio: se suben a Directus en alta resolución. Mientras falten, se muestra "Imagen pendiente".
+> Las imágenes **no** se incluyen en el repositorio: se suben a Directus en alta resolución. Mientras falten, se muestra "Imagen pendiente".

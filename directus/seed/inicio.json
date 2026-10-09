@@ -1,28 +1,34 @@
 {
-  "presentacion": "Soy artista visual de Fiske Menuco, Rio Negro, tierra sagrada, punto de la ancestralidad, donde la materia da cuenta de una historia y de una identidad, la mia; la nuestra.",
   "imagen": null,
-  "bloques": [
-    {
-      "titulo": "Arte",
-      "texto": "Reconozco en el arte el proceso de la existencia como una constante fluctuacion materica y energética, una perspectiva que rompe con el limite de la vida y la muerte."
-    },
-    {
-      "titulo": "Tierra",
-      "texto": "La materia tiene historia."
-    },
-    {
-      "titulo": "Cuerpo",
-      "texto": "Nosotros también."
-    },
-    {
-      "titulo": "Ritual",
-      "texto": "Vivamos concientes."
-    }
-  ],
   "videos": [
     "GYHAOp7buvE",
     "54ySjPuckSc",
     "yI73igkXY5o",
     "wqkgDvPNuyI"
+  ],
+  "translations": [
+    {
+      "languages_code": "es",
+      "presentacion": "Soy artista visual de Fiske Menuco, Rio Negro, tierra sagrada, punto de la ancestralidad, donde la materia da cuenta de una historia y de una identidad, la mia; la nuestra.",
+      "alt_imagen": null,
+      "bloques": [
+        {
+          "titulo": "Arte",
+          "texto": "Reconozco en el arte el proceso de la existencia como una constante fluctuacion materica y energética, una perspectiva que rompe con el limite de la vida y la muerte."
+        },
+        {
+          "titulo": "Tierra",
+          "texto": "La materia tiene historia."
+        },
+        {
+          "titulo": "Cuerpo",
+          "texto": "Nosotros también."
+        },
+        {
+          "titulo": "Ritual",
+          "texto": "Vivamos concientes."
+        }
+      ]
+    }
   ]
 }
