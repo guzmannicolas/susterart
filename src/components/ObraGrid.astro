@@ -1,15 +1,17 @@
 ---
 import ObraCard from './ObraCard.astro';
+import type { Locale } from '../i18n/config';
 import type { Obra } from '../lib/types';
 
 interface Props {
   obras: Obra[];
+  lang: Locale;
 }
-const { obras } = Astro.props;
+const { obras, lang } = Astro.props;
 ---
 
 <ul>
-  {obras.map((o) => <li><ObraCard obra={o} /></li>)}
+  {obras.map((o) => <li><ObraCard obra={o} lang={lang} /></li>)}
 </ul>
 
 <style>

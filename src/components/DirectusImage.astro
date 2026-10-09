@@ -1,15 +1,19 @@
 ---
+import type { Locale } from '../i18n/config';
+import { ui } from '../i18n/ui';
 import { imageSources } from '../lib/directus';
 
 interface Props {
   id: string | null;
+  /** Texto alternativo, editable y traducible en Directus. Vacío = imagen decorativa. */
   alt: string;
+  lang: Locale;
   sizes?: string;
   loading?: 'lazy' | 'eager';
   class?: string;
 }
 
-const { id, alt, sizes = '100vw', loading = 'lazy', class: className } = Astro.props;
+const { id, alt, lang, sizes = '100vw', loading = 'lazy', class: className } = Astro.props;
 const sources = id ? imageSources(id) : null;
 ---
 
@@ -17,8 +21,8 @@ const sources = id ? imageSources(id) : null;
   sources ? (
     <img src={sources.src} srcset={sources.srcset} sizes={sizes} alt={alt} loading={loading} decoding="async" class={className} />
   ) : (
-    <div class:list={['placeholder', className]} role="img" aria-label={`${alt} (imagen pendiente)`}>
-      Imagen pendiente
+    <div class:list={['placeholder', className]} role="img" aria-label={`${alt} (${ui[lang].imagePending})`}>
+      {ui[lang].imagePending}
     </div>
   )
 }

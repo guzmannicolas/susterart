@@ -1,106 +1,31 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import DirectusImage from '../components/DirectusImage.astro';
-import ObraGrid from '../components/ObraGrid.astro';
-import YouTube from '../components/YouTube.astro';
-import { getInicio, getObras } from '../lib/content';
-
-const [inicio, obras] = await Promise.all([getInicio(), getObras()]);
-const destacadas = obras.filter((o) => o.imagen).slice(0, 6);
+// Raíz: elige idioma según el navegador (por defecto español).
+import { localeNames, locales } from '../i18n/config';
 ---
 
-<BaseLayout>
-  <h1 class="visually-hidden">Belen Sustersic, artista visual</h1>
-
-  {
-    inicio?.imagen && (
-      <DirectusImage id={inicio.imagen} alt="Obra de Belen Sustersic" loading="eager" class="hero" />
-    )
-  }
-
-  {
-    inicio?.presentacion ? (
-      <p class="lead">{inicio.presentacion}</p>
-    ) : (
-      <p class="empty">Próximamente.</p>
-    )
-  }
-
-  {
-    inicio?.bloques && inicio.bloques.length > 0 && (
-      <section class="bloques" aria-label="Ejes de trabajo">
-        {inicio.bloques.map((b) => (
-          <div>
-            <h2>{b.titulo}</h2>
-            <p>{b.texto}</p>
-          </div>
-        ))}
-      </section>
-    )
-  }
-
-  {
-    destacadas.length > 0 && (
-      <section aria-labelledby="obras-h">
-        <h2 id="obras-h">Obras</h2>
-        <ObraGrid obras={destacadas} />
-        <p class="more"><a href="/obras">Ver todas las obras</a></p>
-      </section>
-    )
-  }
-
-  {
-    inicio?.videos && inicio.videos.length > 0 && (
-      <section aria-labelledby="videos-h">
-        <h2 id="videos-h">Videos</h2>
-        <div class="videos">
-          {inicio.videos.map((id, i) => (
-            <YouTube id={id} title={`Video ${i + 1} de Belen Sustersic`} />
-          ))}
-        </div>
-      </section>
-    )
-  }
-</BaseLayout>
-
-<style>
-  :global(.hero) {
-    width: 100%;
-    max-height: 80vh;
-    object-fit: cover;
-    margin-bottom: clamp(2rem, 5vw, 4rem);
-  }
-  .lead {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3.4vw, 2.4rem);
-    line-height: 1.35;
-    max-width: 48rem;
-    margin-bottom: clamp(3rem, 8vw, 6rem);
-  }
-  .bloques {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-    gap: 2rem;
-    border-top: 1px solid var(--line);
-    padding-top: 2rem;
-    margin-bottom: clamp(3rem, 8vw, 6rem);
-  }
-  .bloques p {
-    color: var(--muted);
-    margin: 0;
-  }
-  section {
-    margin-bottom: clamp(3rem, 8vw, 6rem);
-  }
-  section > h2 {
-    margin-bottom: 2rem;
-  }
-  .more {
-    margin-top: 2.5rem;
-  }
-  .videos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-    gap: 1.5rem;
-  }
-</style>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Belen Sustersic</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="/es" />
+    <noscript><meta http-equiv="refresh" content="0;url=/es" /></noscript>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 3rem 1.5rem; line-height: 1.6; }
+      ul { list-style: none; padding: 0; }
+      a { font-size: 1.25rem; }
+    </style>
+  </head>
+  <body>
+    <ul>
+      {locales.map((l) => <li><a href={`/${l}`} lang={l} hreflang={l}>{localeNames[l]}</a></li>)}
+    </ul>
+    <script is:inline>
+      var l = (navigator.language || 'es').toLowerCase();
+      var target = l.indexOf('gsw') === 0 || l === 'de-ch' ? '/gsw' : l.indexOf('en') === 0 ? '/en' : '/es';
+      location.replace(target);
+    </script>
+  </body>
+</html>

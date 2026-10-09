@@ -1,0 +1,60 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { localePaths } from '../../i18n/config';
+import { ui } from '../../i18n/ui';
+import { getContacto } from '../../lib/content';
+
+export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const c = await getContacto();
+const canales = [
+  { label: t.contact.email, text: c?.email, href: c?.email ? `mailto:${c.email}` : null },
+  { label: t.contact.whatsapp, text: t.contact.whatsappText, href: c?.whatsapp },
+  { label: t.contact.instagram, text: '@suster.art', href: c?.instagram },
+  { label: t.contact.youtube, text: t.contact.youtubeText, href: c?.youtube },
+].filter((x): x is { label: string; text: string; href: string } => Boolean(x.text && x.href));
+---
+
+<BaseLayout lang={lang} title={t.contact.title} description={t.contact.description}>
+  <h1 class="page-title">{t.contact.title}</h1>
+  {
+    canales.length > 0 ? (
+      <dl>
+        {canales.map((x) => {
+          const externo = x.href.startsWith('http');
+          return (
+            <>
+              <dt>{x.label}</dt>
+              <dd>
+                <a href={x.href} rel={externo ? 'noopener noreferrer' : undefined} target={externo ? '_blank' : undefined}>
+                  {x.text}
+                  {externo && <span class="visually-hidden"> {t.external}</span>}
+                </a>
+              </dd>
+            </>
+          );
+        })}
+      </dl>
+    ) : (
+      <p class="empty">{t.comingSoon}</p>
+    )
+  }
+</BaseLayout>
+
+<style>
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.75rem 2.5rem;
+    font-size: 1.2rem;
+  }
+  dt {
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+  }
+</style>

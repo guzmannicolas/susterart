@@ -1,24 +1,54 @@
 ---
+import { localeNames, locales, type Locale } from '../i18n/config';
+import { ui } from '../i18n/ui';
+import { localizedPath, switchLocale } from '../i18n/url';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
 const links = [
-  { href: '/', label: 'Inicio' },
-  { href: '/obras', label: 'Obras' },
-  { href: '/cursos', label: 'Cursos' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/cv', label: 'CV' },
-  { href: '/contacto', label: 'Contacto' },
-];
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
+  { path: '', label: t.nav.home },
+  { path: '/obras', label: t.nav.works },
+  { path: '/cursos', label: t.nav.courses },
+  { path: '/blog', label: t.nav.blog },
+  { path: '/cv', label: t.nav.cv },
+  { path: '/contacto', label: t.nav.contact },
+].map((l) => ({ ...l, href: localizedPath(lang, l.path) }));
+const path = Astro.url.pathname.replace(/\/$/, '');
+const isCurrent = (l: { path: string; href: string }) =>
+  l.path === '' ? path === l.href : path === l.href || path.startsWith(`${l.href}/`);
 ---
 
 <header class="site-header">
-  <a class="brand" href="/">Belen Sustersic</a>
-  <nav aria-label="Principal">
+  <div class="top">
+    <a class="brand" href={localizedPath(lang)}>Belen Sustersic</a>
+    <nav aria-label={t.langLabel} class="langs">
+      <ul>
+        {
+          locales.map((l) => (
+            <li>
+              <a
+                href={switchLocale(Astro.url.pathname, l)}
+                lang={l}
+                hreflang={l}
+                aria-current={l === lang ? 'true' : undefined}
+              >
+                {localeNames[l]}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+  <nav aria-label={t.navLabel} class="main">
     <ul>
       {
         links.map((l) => (
           <li>
-            <a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>
+            <a href={l.href} aria-current={isCurrent(l) ? 'page' : undefined}>
               {l.label}
             </a>
           </li>
@@ -30,15 +60,19 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
 
 <style>
   .site-header {
+    padding: 1.5rem var(--gutter) 0;
+    max-width: var(--max);
+    width: 100%;
+    margin-inline: auto;
+    display: grid;
+    gap: 1rem;
+  }
+  .top {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 0.75rem 2rem;
-    padding: 1.5rem var(--gutter);
-    max-width: var(--max);
-    width: 100%;
-    margin-inline: auto;
+    gap: 0.5rem 2rem;
   }
   .brand {
     font-family: var(--font-display);
@@ -57,12 +91,22 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
     display: inline-block;
     padding: 0.35rem 0;
     text-decoration: none;
-    font-size: 0.95rem;
     letter-spacing: 0.03em;
     border-bottom: 1px solid transparent;
   }
+  .main a {
+    font-size: 0.95rem;
+  }
+  .langs a {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
   nav a:hover,
-  nav a[aria-current='page'] {
+  .main a[aria-current='page'],
+  .langs a[aria-current='true'] {
     border-bottom-color: currentColor;
+  }
+  .langs a[aria-current='true'] {
+    color: var(--fg);
   }
 </style>

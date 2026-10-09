@@ -1,28 +1,34 @@
 ---
 import DirectusImage from './DirectusImage.astro';
+import type { Locale } from '../i18n/config';
+import { ui } from '../i18n/ui';
+import { localizedPath } from '../i18n/url';
 import { formatPrice } from '../lib/format';
 import type { Obra } from '../lib/types';
 
 interface Props {
   obra: Obra;
+  lang: Locale;
 }
-const { obra } = Astro.props;
-const estados = { disponible: 'Disponible', consultar: 'Consultar', agotado: 'Agotada' } as const;
-const precio = obra.estado === 'disponible' ? formatPrice(obra.precio, 'EUR') : null;
+const { obra, lang } = Astro.props;
+const t = ui[lang];
+const precio = obra.estado === 'disponible' ? formatPrice(obra.precio, 'EUR', lang) : null;
+const alt = obra.alt_imagen ?? [obra.titulo, obra.tecnica].filter(Boolean).join(', ');
 ---
 
 <article class="card">
-  <a href={`/obras/${obra.slug}`}>
+  <a href={localizedPath(lang, `/obras/${obra.slug}`)}>
     <div class="frame">
       <DirectusImage
         id={obra.imagen}
-        alt={`${obra.titulo}${obra.tecnica ? `, ${obra.tecnica}` : ''}`}
+        alt={alt}
+        lang={lang}
         sizes="(min-width: 60rem) 33vw, (min-width: 36rem) 50vw, 100vw"
       />
     </div>
     <h3>{obra.titulo}</h3>
     <p class="meta">
-      {[obra.anio, estados[obra.estado], precio].filter(Boolean).join(' · ')}
+      {[obra.anio, t.works.status[obra.estado], precio].filter(Boolean).join(' · ')}
     </p>
   </a>
 </article>

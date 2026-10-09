@@ -1,0 +1,119 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import DirectusImage from '../../../components/DirectusImage.astro';
+import { locales } from '../../../i18n/config';
+import { ui } from '../../../i18n/ui';
+import { localizedPath } from '../../../i18n/url';
+import { getContacto, getObras } from '../../../lib/content';
+import { assetUrl } from '../../../lib/directus';
+import { formatPrice } from '../../../lib/format';
+
+export const getStaticPaths = (async () => {
+  const contacto = await getContacto();
+  const porIdioma = await Promise.all(
+    locales.map(async (lang) => {
+      const obras = await getObras(lang);
+      return obras.map((obra, i) => ({
+        params: { lang, slug: obra.slug },
+        props: { lang, obra, contacto, prev: obras[i - 1] ?? null, next: obras[i + 1] ?? null },
+      }));
+    }),
+  );
+  return porIdioma.flat();
+}) satisfies GetStaticPaths;
+
+const { lang, obra, contacto, prev, next } = Astro.props;
+const t = ui[lang];
+const precio = obra.estado === 'disponible' ? formatPrice(obra.precio, 'EUR', lang) : null;
+const datos = [
+  [t.works.year, obra.anio],
+  [t.works.technique, obra.tecnica],
+  [t.works.size, obra.medidas],
+  [t.works.state, t.works.statusLong[obra.estado]],
+  [t.works.price, precio],
+].filter((d): d is [string, string | number] => d[1] != null && d[1] !== '');
+const asunto = encodeURIComponent(t.works.subject(obra.titulo));
+const alt = obra.alt_imagen ?? [obra.titulo, obra.tecnica].filter(Boolean).join(', ');
+---
+
+<BaseLayout
+  lang={lang}
+  title={obra.titulo}
+  description={obra.descripcion ?? `${obra.titulo}, Belen Sustersic`}
+  image={obra.imagen ? assetUrl(obra.imagen, { width: 1200 }) : undefined}
+>
+  <p><a href={localizedPath(lang, '/obras')}>{t.works.back}</a></p>
+  <div class="layout">
+    <DirectusImage id={obra.imagen} alt={alt} lang={lang} sizes="(min-width: 60rem) 60vw, 100vw" loading="eager" class="obra-img" />
+    <div>
+      <h1>{obra.titulo}</h1>
+      <dl>
+        {datos.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+      </dl>
+      {obra.descripcion && <p class="prose">{obra.descripcion}</p>}
+      {
+        obra.estado !== 'agotado' && (contacto?.email || contacto?.whatsapp) && (
+          <p class="actions">
+            {contacto.email && (
+              <a class="button" href={`mailto:${contacto.email}?subject=${asunto}`}>{t.works.acquire}</a>
+            )}
+            {contacto.whatsapp && (
+              <a class="button" href={contacto.whatsapp} rel="noopener noreferrer" target="_blank">
+                {t.works.whatsapp}<span class="visually-hidden"> {t.external}</span>
+              </a>
+            )}
+          </p>
+        )
+      }
+    </div>
+  </div>
+  <nav class="pager" aria-label={t.works.pager}>
+    {prev ? <a href={localizedPath(lang, `/obras/${prev.slug}`)} rel="prev">← {prev.titulo}</a> : <span />}
+    {next ? <a href={localizedPath(lang, `/obras/${next.slug}`)} rel="next">{next.titulo} →</a> : <span />}
+  </nav>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: 1.5rem;
+  }
+  @media (min-width: 60rem) {
+    .layout {
+      grid-template-columns: 3fr 2fr;
+      align-items: start;
+    }
+  }
+  :global(.obra-img) {
+    width: 100%;
+    background: var(--soft);
+  }
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.35rem 1.5rem;
+    margin: 0 0 1.5rem;
+  }
+  dt {
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 4rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+  }
+</style>

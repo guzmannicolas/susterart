@@ -50,17 +50,21 @@ async function request<T>(path: string, params: Params = {}): Promise<T> {
 /** Lista de una colección. `filter` usa la sintaxis de Directus (JSON). */
 export function getItems<T>(
   collection: string,
-  options: { filter?: object; sort?: string } = {},
+  options: { filter?: object; sort?: string; translations?: boolean } = {},
 ): Promise<T[]> {
-  const params: Params = { limit: -1, fields: '*' };
+  const params: Params = { limit: -1, fields: options.translations ? '*,translations.*' : '*' };
   if (options.sort) params.sort = options.sort;
   if (options.filter) params.filter = JSON.stringify(options.filter);
   return request<T[]>(`/items/${collection}`, params);
 }
 
 /** Singleton: devuelve null si todavía no tiene contenido. */
-export async function getSingleton<T>(collection: string): Promise<T | null> {
-  const data = await request<T | null>(`/items/${collection}`, { fields: '*' });
+export async function getSingleton<T>(
+  collection: string,
+  options: { translations?: boolean } = {},
+): Promise<T | null> {
+  const fields = options.translations ? '*,translations.*' : '*';
+  const data = await request<T | null>(`/items/${collection}`, { fields });
   return data && typeof data === 'object' ? data : null;
 }
 

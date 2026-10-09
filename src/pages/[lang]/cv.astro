@@ -1,30 +1,29 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCvItems } from '../lib/content';
-import type { CvItem, CvTipo } from '../lib/types';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { localePaths } from '../../i18n/config';
+import { ui } from '../../i18n/ui';
+import { getCvItems } from '../../lib/content';
+import type { CvTipo } from '../../lib/types';
 
-const items = await getCvItems();
-const secciones: [CvTipo, string][] = [
-  ['formacion', 'Formación'],
-  ['exposicion_individual', 'Exposiciones individuales'],
-  ['exposicion_colectiva', 'Exposiciones colectivas'],
-  ['premio', 'Premios'],
-  ['residencia', 'Residencias'],
-  ['otro', 'Otros'],
-];
-const porTipo = (tipo: CvTipo): CvItem[] => items.filter((i) => i.tipo === tipo);
+export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const items = await getCvItems(lang);
+const tipos: CvTipo[] = ['formacion', 'exposicion_individual', 'exposicion_colectiva', 'premio', 'residencia', 'otro'];
 ---
 
-<BaseLayout title="CV" description="Currículum de Belen Sustersic.">
-  <h1 class="page-title">CV</h1>
+<BaseLayout lang={lang} title={t.cv.title} description={t.cv.description}>
+  <h1 class="page-title">{t.cv.title}</h1>
   {
     items.length > 0 ? (
-      secciones.map(([tipo, titulo]) => {
-        const lista = porTipo(tipo);
+      tipos.map((tipo) => {
+        const lista = items.filter((i) => i.tipo === tipo);
         return (
           lista.length > 0 && (
             <section>
-              <h2>{titulo}</h2>
+              <h2>{t.cv.sections[tipo]}</h2>
               <ul>
                 {lista.map((i) => (
                   <li>
@@ -42,7 +41,7 @@ const porTipo = (tipo: CvTipo): CvItem[] => items.filter((i) => i.tipo === tipo)
         );
       })
     ) : (
-      <p class="empty">Próximamente.</p>
+      <p class="empty">{t.comingSoon}</p>
     )
   }
 </BaseLayout>

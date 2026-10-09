@@ -1,0 +1,64 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { localePaths } from '../../../i18n/config';
+import { ui } from '../../../i18n/ui';
+import { localizedPath } from '../../../i18n/url';
+import { getEntradas } from '../../../lib/content';
+import { formatDate } from '../../../lib/format';
+
+export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const entradas = await getEntradas(lang);
+---
+
+<BaseLayout lang={lang} title={t.blog.title} description={t.blog.description}>
+  <h1 class="page-title">{t.blog.title}</h1>
+  {
+    entradas.length > 0 ? (
+      <ul>
+        {entradas.map((e) => {
+          const fecha = formatDate(e.fecha, { day: 'numeric', month: 'long', year: 'numeric' }, lang);
+          return (
+            <li>
+              <a href={localizedPath(lang, `/blog/${e.slug}`)}>
+                <h2>{e.titulo}</h2>
+                {fecha && <time datetime={e.fecha ?? undefined}>{fecha}</time>}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <p class="empty">{t.comingSoon}</p>
+    )
+  }
+</BaseLayout>
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: var(--measure);
+  }
+  li {
+    border-top: 1px solid var(--line);
+    padding: 1.25rem 0;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:hover h2 {
+    text-decoration: underline;
+  }
+  h2 {
+    margin: 0 0 0.25rem;
+  }
+  time {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>

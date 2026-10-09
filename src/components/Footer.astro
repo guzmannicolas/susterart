@@ -1,32 +1,32 @@
 ---
+import type { Locale } from '../i18n/config';
+import { ui } from '../i18n/ui';
 import { getContacto } from '../lib/content';
-import { directusConfigured } from '../lib/directus';
 
-const contacto = directusConfigured ? await getContacto() : null;
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const contacto = await getContacto();
 const autoria = contacto?.nombre_autoria;
 const redes = [
-  { label: 'Instagram', href: contacto?.instagram },
-  { label: 'YouTube', href: contacto?.youtube },
+  { label: t.contact.instagram, href: contacto?.instagram },
+  { label: t.contact.youtube, href: contacto?.youtube },
 ].filter((r): r is { label: string; href: string } => Boolean(r.href));
 ---
 
 <footer>
   <div class="inner">
-    {
-      autoria && (
-        <p>
-          Todas las obras son de autoría de {autoria}, su réplica parcial o total está estrictamente prohibida.
-        </p>
-      )
-    }
+    {autoria && <p>{t.footer.rights(autoria)}</p>}
     {
       redes.length > 0 && (
-        <ul aria-label="Redes">
+        <ul>
           {redes.map((r) => (
             <li>
               <a href={r.href} rel="noopener noreferrer" target="_blank">
                 {r.label}
-                <span class="visually-hidden"> (se abre en una pestaña nueva)</span>
+                <span class="visually-hidden"> {t.external}</span>
               </a>
             </li>
           ))}

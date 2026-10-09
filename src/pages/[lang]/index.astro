@@ -1,0 +1,106 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DirectusImage from '../../components/DirectusImage.astro';
+import ObraGrid from '../../components/ObraGrid.astro';
+import YouTube from '../../components/YouTube.astro';
+import { localePaths } from '../../i18n/config';
+import { ui } from '../../i18n/ui';
+import { localizedPath } from '../../i18n/url';
+import { getInicio, getObras } from '../../lib/content';
+
+export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const [inicio, obras] = await Promise.all([getInicio(lang), getObras(lang)]);
+const destacadas = obras.filter((o) => o.imagen).slice(0, 6);
+---
+
+<BaseLayout lang={lang}>
+  <h1 class="visually-hidden">{t.home.h1}</h1>
+
+  {
+    inicio?.imagen && (
+      <DirectusImage id={inicio.imagen} alt={inicio.alt_imagen ?? t.home.heroAlt} lang={lang} loading="eager" class="hero" />
+    )
+  }
+
+  {inicio?.presentacion ? <p class="lead">{inicio.presentacion}</p> : <p class="empty">{t.comingSoon}</p>}
+
+  {
+    inicio?.bloques && inicio.bloques.length > 0 && (
+      <section class="bloques" aria-label={t.home.axes}>
+        {inicio.bloques.map((b) => (
+          <div>
+            <h2>{b.titulo}</h2>
+            <p>{b.texto}</p>
+          </div>
+        ))}
+      </section>
+    )
+  }
+
+  {
+    destacadas.length > 0 && (
+      <section aria-labelledby="obras-h">
+        <h2 id="obras-h">{t.home.works}</h2>
+        <ObraGrid obras={destacadas} lang={lang} />
+        <p class="more"><a href={localizedPath(lang, '/obras')}>{t.home.allWorks}</a></p>
+      </section>
+    )
+  }
+
+  {
+    inicio?.videos && inicio.videos.length > 0 && (
+      <section aria-labelledby="videos-h">
+        <h2 id="videos-h">{t.home.videos}</h2>
+        <div class="videos">
+          {inicio.videos.map((id, i) => <YouTube id={id} title={t.home.video(i + 1)} />)}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  :global(.hero) {
+    width: 100%;
+    max-height: 80vh;
+    object-fit: cover;
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+  }
+  .lead {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+    line-height: 1.35;
+    max-width: 48rem;
+    margin-bottom: clamp(3rem, 8vw, 6rem);
+  }
+  .bloques {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 2rem;
+    border-top: 1px solid var(--line);
+    padding-top: 2rem;
+    margin-bottom: clamp(3rem, 8vw, 6rem);
+  }
+  .bloques p {
+    color: var(--muted);
+    margin: 0;
+  }
+  section {
+    margin-bottom: clamp(3rem, 8vw, 6rem);
+  }
+  section > h2 {
+    margin-bottom: 2rem;
+  }
+  .more {
+    margin-top: 2.5rem;
+  }
+  .videos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 1.5rem;
+  }
+</style>

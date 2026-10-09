@@ -1,0 +1,73 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { localePaths } from '../../i18n/config';
+import { ui } from '../../i18n/ui';
+import { getContacto, getCursos } from '../../lib/content';
+import { formatDate, formatPrice } from '../../lib/format';
+import { renderMarkdown } from '../../lib/markdown';
+
+export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const [cursos, contacto] = await Promise.all([getCursos(lang), getContacto()]);
+---
+
+<BaseLayout lang={lang} title={t.courses.title} description={t.courses.description}>
+  <h1 class="page-title">{t.courses.title}</h1>
+  {
+    cursos.length > 0 ? (
+      <div class="list">
+        {cursos.map((c) => {
+          const datos = [
+            [t.courses.mode, c.modalidad ? t.courses.modality[c.modalidad] : null],
+            [t.courses.start, formatDate(c.inicio, { day: 'numeric', month: 'long', year: 'numeric' }, lang)],
+            [t.courses.duration, c.duracion],
+            [t.courses.schedule, c.horario],
+            [t.courses.price, formatPrice(c.precio, c.moneda, lang)],
+          ].filter((d): d is [string, string] => Boolean(d[1]));
+          return (
+            <article>
+              <h2>{c.nombre}</h2>
+              {datos.length > 0 && (
+                <dl>
+                  {datos.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+                </dl>
+              )}
+              {c.descripcion && <div class="prose" set:html={renderMarkdown(c.descripcion)} />}
+            </article>
+          );
+        })}
+      </div>
+    ) : (
+      <p class="empty">
+        {t.courses.none}
+        {contacto?.email && (<>{t.courses.contactPrefix}<a href={`mailto:${contacto.email}`}>{contacto.email}</a>{t.courses.contactSuffix}</>)}
+      </p>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .list {
+    display: grid;
+    gap: 3.5rem;
+  }
+  article {
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+  }
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.25rem 1.5rem;
+    margin: 0 0 1.25rem;
+  }
+  dt {
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+  }
+</style>

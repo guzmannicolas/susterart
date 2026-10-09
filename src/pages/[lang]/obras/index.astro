@@ -1,0 +1,19 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ObraGrid from '../../../components/ObraGrid.astro';
+import { localePaths } from '../../../i18n/config';
+import { ui } from '../../../i18n/ui';
+import { getObras } from '../../../lib/content';
+
+export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const obras = await getObras(lang);
+---
+
+<BaseLayout lang={lang} title={t.works.title} description={t.works.description}>
+  <h1 class="page-title">{t.works.title}</h1>
+  {obras.length > 0 ? <ObraGrid obras={obras} lang={lang} /> : <p class="empty">{t.comingSoon}</p>}
+</BaseLayout>

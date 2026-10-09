@@ -1,8 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { locales } from '../i18n/config';
+import { ui } from '../i18n/ui';
 ---
 
-<BaseLayout title="Página no encontrada">
-  <h1>Página no encontrada</h1>
-  <p><a href="/">Volver al inicio</a></p>
+<BaseLayout lang="es" title="404">
+  {
+    locales.map((l) => (
+      <section lang={l}>
+        <h1>{ui[l].notFound.title}</h1>
+        <p><a href={`/${l}`}>{ui[l].notFound.home}</a></p>
+      </section>
+    ))
+  }
 </BaseLayout>
+
+<style>
+  section {
+    margin-bottom: 2.5rem;
+  }
+  h1 {
+    font-size: 1.75rem;
+  }
+</style>
