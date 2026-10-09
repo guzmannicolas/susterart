@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getContacto, getCursos } from '../lib/content';
+import { formatDate, formatPrice } from '../lib/format';
+import { renderMarkdown } from '../lib/markdown';
+
+const [cursos, contacto] = await Promise.all([getCursos(), getContacto()]);
+const modalidades = { presencial: 'Presencial', online: 'Online' } as const;
+---
+
+<BaseLayout title="Cursos" description="Cursos y talleres de Belen Sustersic.">
+  <h1 class="page-title">Cursos</h1>
+  {
+    cursos.length > 0 ? (
+      <div class="list">
+        {cursos.map((c) => {
+          const datos = [
+            ['Modalidad', c.modalidad ? modalidades[c.modalidad] : null],
+            ['Inicio', formatDate(c.inicio, { day: 'numeric', month: 'long', year: 'numeric' })],
+            ['Duración', c.duracion],
+            ['Horario', c.horario],
+            ['Precio', formatPrice(c.precio, c.moneda)],
+          ].filter((d): d is [string, string] => Boolean(d[1]));
+          return (
+            <article>
+              <h2>{c.nombre}</h2>
+              {datos.length > 0 && (
+                <dl>
+                  {datos.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+                </dl>
+              )}
+              {c.descripcion && <div class="prose" set:html={renderMarkdown(c.descripcion)} />}
+            </article>
+          );
+        })}
+      </div>
+    ) : (
+      <p class="empty">
+        Por el momento no hay cursos abiertos.
+        {contacto?.email && (<> Escribime a <a href={`mailto:${contacto.email}`}>{contacto.email}</a> para recibir novedades.</>)}
+      </p>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .list {
+    display: grid;
+    gap: 3.5rem;
+  }
+  article {
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+  }
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.25rem 1.5rem;
+    margin: 0 0 1.25rem;
+  }
+  dt {
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+  }
+</style>

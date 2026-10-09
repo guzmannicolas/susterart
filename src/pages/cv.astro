@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCvItems } from '../lib/content';
+import type { CvItem, CvTipo } from '../lib/types';
+
+const items = await getCvItems();
+const secciones: [CvTipo, string][] = [
+  ['formacion', 'Formación'],
+  ['exposicion_individual', 'Exposiciones individuales'],
+  ['exposicion_colectiva', 'Exposiciones colectivas'],
+  ['premio', 'Premios'],
+  ['residencia', 'Residencias'],
+  ['otro', 'Otros'],
+];
+const porTipo = (tipo: CvTipo): CvItem[] => items.filter((i) => i.tipo === tipo);
+---
+
+<BaseLayout title="CV" description="Currículum de Belen Sustersic.">
+  <h1 class="page-title">CV</h1>
+  {
+    items.length > 0 ? (
+      secciones.map(([tipo, titulo]) => {
+        const lista = porTipo(tipo);
+        return (
+          lista.length > 0 && (
+            <section>
+              <h2>{titulo}</h2>
+              <ul>
+                {lista.map((i) => (
+                  <li>
+                    <span class="anio">{i.anio ?? ''}</span>
+                    <div>
+                      <strong>{i.titulo}</strong>
+                      {i.lugar && <span class="muted">, {i.lugar}</span>}
+                      {i.descripcion && <p class="muted">{i.descripcion}</p>}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        );
+      })
+    ) : (
+      <p class="empty">Próximamente.</p>
+    )
+  }
+</BaseLayout>
+
+<style>
+  section {
+    margin-bottom: 3rem;
+    max-width: var(--measure);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--line);
+  }
+  li p {
+    margin: 0.25rem 0 0;
+  }
+  .anio {
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+</style>

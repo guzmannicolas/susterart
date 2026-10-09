@@ -1,0 +1,58 @@
+---
+import DirectusImage from './DirectusImage.astro';
+import { formatPrice } from '../lib/format';
+import type { Obra } from '../lib/types';
+
+interface Props {
+  obra: Obra;
+}
+const { obra } = Astro.props;
+const estados = { disponible: 'Disponible', consultar: 'Consultar', agotado: 'Agotada' } as const;
+const precio = obra.estado === 'disponible' ? formatPrice(obra.precio, 'EUR') : null;
+---
+
+<article class="card">
+  <a href={`/obras/${obra.slug}`}>
+    <div class="frame">
+      <DirectusImage
+        id={obra.imagen}
+        alt={`${obra.titulo}${obra.tecnica ? `, ${obra.tecnica}` : ''}`}
+        sizes="(min-width: 60rem) 33vw, (min-width: 36rem) 50vw, 100vw"
+      />
+    </div>
+    <h3>{obra.titulo}</h3>
+    <p class="meta">
+      {[obra.anio, estados[obra.estado], precio].filter(Boolean).join(' · ')}
+    </p>
+  </a>
+</article>
+
+<style>
+  a {
+    text-decoration: none;
+    display: block;
+  }
+  .frame {
+    background: var(--soft);
+    aspect-ratio: 4 / 5;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .frame :global(img) {
+    max-height: 100%;
+    object-fit: contain;
+  }
+  h3 {
+    font-size: 1.2rem;
+    margin: 0.9rem 0 0.15rem;
+  }
+  a:hover h3 {
+    text-decoration: underline;
+  }
+  .meta {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+</style>

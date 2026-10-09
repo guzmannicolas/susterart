@@ -1,0 +1,24 @@
+---
+import ObraCard from './ObraCard.astro';
+import type { Obra } from '../lib/types';
+
+interface Props {
+  obras: Obra[];
+}
+const { obras } = Astro.props;
+---
+
+<ul>
+  {obras.map((o) => <li><ObraCard obra={o} /></li>)}
+</ul>
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem) clamp(1.25rem, 3vw, 2.5rem);
+  }
+</style>

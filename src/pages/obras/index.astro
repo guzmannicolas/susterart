@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ObraGrid from '../../components/ObraGrid.astro';
+import { getObras } from '../../lib/content';
+
+const obras = await getObras();
+---
+
+<BaseLayout title="Obras" description="Obras de Belen Sustersic.">
+  <h1 class="page-title">Obras</h1>
+  {obras.length > 0 ? <ObraGrid obras={obras} /> : <p class="empty">Próximamente.</p>}
+</BaseLayout>

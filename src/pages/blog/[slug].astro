@@ -1,0 +1,45 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DirectusImage from '../../components/DirectusImage.astro';
+import { getEntradas } from '../../lib/content';
+import { assetUrl } from '../../lib/directus';
+import { formatDate } from '../../lib/format';
+import { renderMarkdown } from '../../lib/markdown';
+
+export const getStaticPaths = (async () => {
+  const entradas = await getEntradas();
+  return entradas.map((entrada) => ({ params: { slug: entrada.slug }, props: { entrada } }));
+}) satisfies GetStaticPaths;
+
+const { entrada } = Astro.props;
+const fecha = formatDate(entrada.fecha, { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout
+  title={entrada.titulo}
+  image={entrada.imagen ? assetUrl(entrada.imagen, { width: 1200 }) : undefined}
+>
+  <p><a href="/blog">← Blog</a></p>
+  <article>
+    <h1>{entrada.titulo}</h1>
+    {fecha && <p class="muted"><time datetime={entrada.fecha ?? undefined}>{fecha}</time></p>}
+    {entrada.imagen && <DirectusImage id={entrada.imagen} alt="" sizes="(min-width: 48rem) 48rem, 100vw" class="cover" />}
+    <div class="prose" set:html={renderMarkdown(entrada.contenido)} />
+  </article>
+</BaseLayout>
+
+<style>
+  article {
+    max-width: var(--measure);
+    margin-top: 1.5rem;
+  }
+  :global(.cover) {
+    width: 100%;
+    margin: 2rem 0;
+  }
+  .prose {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+  }
+</style>

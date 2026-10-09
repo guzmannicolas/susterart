@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getEntradas } from '../../lib/content';
+import { formatDate } from '../../lib/format';
+
+const entradas = await getEntradas();
+---
+
+<BaseLayout title="Blog" description="Textos y poemas de Belen Sustersic.">
+  <h1 class="page-title">Blog</h1>
+  {
+    entradas.length > 0 ? (
+      <ul>
+        {entradas.map((e) => {
+          const fecha = formatDate(e.fecha, { day: 'numeric', month: 'long', year: 'numeric' });
+          return (
+            <li>
+              <a href={`/blog/${e.slug}`}>
+                <h2>{e.titulo}</h2>
+                {fecha && <time datetime={e.fecha ?? undefined}>{fecha}</time>}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <p class="empty">Próximamente.</p>
+    )
+  }
+</BaseLayout>
+
+<style>
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: var(--measure);
+  }
+  li {
+    border-top: 1px solid var(--line);
+    padding: 1.25rem 0;
+  }
+  a {
+    text-decoration: none;
+  }
+  a:hover h2 {
+    text-decoration: underline;
+  }
+  h2 {
+    margin: 0 0 0.25rem;
+  }
+  time {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
