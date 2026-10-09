@@ -39,6 +39,16 @@ npm run build            # genera dist/
 
 Si falta `PUBLIC_DIRECTUS_URL` el build falla con un mensaje claro.
 
+## Vista previa de diseño (sin Directus)
+
+Con `DEMO_CONTENT=true` el sitio se construye con contenido e imágenes de **ejemplo** (`src/lib/demo.ts`, `public/demo/`), sin consultar Directus ni necesitar token. Muestra un aviso amarillo y `noindex`. Sirve para revisar el diseño o para un primer despliegue de prueba:
+
+```bash
+DEMO_CONTENT=true npm run dev
+```
+
+**Nunca activarlo en Production.** En Vercel ponelo solo en el entorno *Preview*.
+
 ## Directus
 
 1. Revisar y aprobar [`directus/PROPUESTA.md`](directus/PROPUESTA.md) (colecciones, campos, permisos).

@@ -6,6 +6,8 @@
  *   incluye en el código que llega al navegador.
  */
 
+import { DEMO_PREFIX, demoData, demoEnabled } from './demo';
+
 const baseUrl = (import.meta.env.PUBLIC_DIRECTUS_URL ?? '').replace(/\/+$/, '');
 const token = import.meta.env.DIRECTUS_TOKEN ?? '';
 
@@ -52,6 +54,7 @@ export function getItems<T>(
   collection: string,
   options: { filter?: object; sort?: string; translations?: boolean } = {},
 ): Promise<T[]> {
+  if (demoEnabled) return Promise.resolve((demoData[collection] ?? []) as T[]);
   const params: Params = { limit: -1, fields: options.translations ? '*,translations.*' : '*' };
   if (options.sort) params.sort = options.sort;
   if (options.filter) params.filter = JSON.stringify(options.filter);
@@ -63,6 +66,7 @@ export async function getSingleton<T>(
   collection: string,
   options: { translations?: boolean } = {},
 ): Promise<T | null> {
+  if (demoEnabled) return (demoData[collection] ?? null) as T | null;
   const fields = options.translations ? '*,translations.*' : '*';
   const data = await request<T | null>(`/items/${collection}`, { fields });
   return data && typeof data === 'object' ? data : null;
@@ -75,6 +79,7 @@ interface AssetOptions {
 
 /** URL pública de un archivo (requiere permiso de lectura público en directus_files). */
 export function assetUrl(id: string, { width, quality = 80 }: AssetOptions = {}): string {
+  if (id.startsWith(DEMO_PREFIX)) return `/demo/${id}.svg`;
   const url = new URL(`${baseUrl}/assets/${id}`);
   if (width) url.searchParams.set('width', String(width));
   url.searchParams.set('format', 'webp');

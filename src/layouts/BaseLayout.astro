@@ -6,6 +6,7 @@ import { defaultLocale, htmlLang, locales, type Locale } from '../i18n/config';
 import { ui } from '../i18n/ui';
 import { switchLocale } from '../i18n/url';
 import { getAjustes } from '../lib/content';
+import { demoEnabled } from '../lib/demo';
 import { assetUrl } from '../lib/directus';
 
 interface Props {
@@ -48,8 +49,10 @@ const ogLocale = htmlLang[lang].replace('-', '_');
     <meta property="og:locale" content={ogLocale} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="color-scheme" content="light dark" />
+    {demoEnabled && <meta name="robots" content="noindex, nofollow" />}
   </head>
   <body>
+    {demoEnabled && <p class="demo-banner" role="note">Vista previa de diseño: contenido e imágenes de ejemplo, no es el sitio final.</p>}
     <a class="skip-link" href="#contenido">{ui[lang].skip}</a>
     <Header lang={lang} />
     <main id="contenido" tabindex="-1">

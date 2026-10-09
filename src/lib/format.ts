@@ -3,10 +3,13 @@ import type { Moneda } from './types';
 
 export function formatPrice(amount: number | null, currency: Moneda | null, lang: Locale): string | null {
   if (amount == null || currency == null) return null;
-  return new Intl.NumberFormat(intlLocale[lang], {
+  // es-AR escribe "EUR 1.500"; para euros en español se usa es-ES ("1.500 €").
+  const locale = lang === 'es' && currency === 'EUR' ? 'es-ES' : intlLocale[lang];
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
     maximumFractionDigits: 0,
+    useGrouping: 'always',
   }).format(amount);
 }
 
