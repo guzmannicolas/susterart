@@ -4,14 +4,14 @@ Portfolio de **Belen Sustersic**, artista visual. Sitio estático hecho con [Ast
 
 Secciones: Inicio, Obras (con ficha por obra), Cursos, Blog, CV y Contacto.
 
-**Multilingüe:** español (`/es`, por defecto), inglés (`/en`) y alemán suizo (`/gsw`). La raíz `/` redirige según el idioma del navegador. **Todas las imágenes** (obras, portada, blog, favicon e imagen para compartir) y sus textos alternativos se administran en Directus.
+**Multilingüe:** español (`/es`, por defecto), inglés (`/en`) y alemán estándar de Suiza (`/de`, `lang="de-CH"`). La raíz `/` redirige según el idioma del navegador. **Todas las imágenes** (obras, portada, blog, favicon e imagen para compartir) y sus textos alternativos se administran en Directus.
 
 ## Estructura
 
 ```
 src/
   components/   Header (con selector de idioma), Footer, ObraCard, ObraGrid, DirectusImage, YouTube
-  i18n/         config.ts (idiomas), ui.ts (textos fijos es/en/gsw), url.ts
+  i18n/         config.ts (idiomas), ui.ts (textos fijos es/en/de), url.ts
   layouts/      BaseLayout (head, SEO, hreflang, salto al contenido)
   lib/          directus.ts (cliente), content.ts (consultas por idioma), i18n-content.ts (respaldo a español),
                 types.ts, markdown.ts, format.ts
@@ -45,7 +45,7 @@ Si falta `PUBLIC_DIRECTUS_URL` el build falla con un mensaje claro.
 2. Crear las colecciones y cargar `directus/seed/*.json`.
 3. Crear un rol de solo lectura + usuario con token estático (ver propuesta) y darle permiso *Read* al rol *Public* sobre `directus_files` para que se vean las imágenes.
 
-**Idiomas:** el contenido usa el patrón estándar de traducciones de Directus (colecciones `*_translations`, códigos `es`, `en`, `gsw`). Si falta una traducción, se muestra el español campo por campo; una obra o entrada sin título en español no se publica. Los textos fijos de la interfaz están en `src/i18n/ui.ts` (los de `en` y `gsw` son borradores a revisar).
+**Idiomas:** el contenido usa el patrón estándar de traducciones de Directus (colecciones `*_translations`, códigos `es`, `en`, `de`). Si falta una traducción, se muestra el español campo por campo; una obra o entrada sin título en español no se publica. Los textos fijos de la interfaz están en `src/i18n/ui.ts` (los de `en` y `de` son borradores a revisar).
 
 El sitio solo muestra obras, entradas y CV con `status = published`, y cursos con `activo = true`. Lo que falte confirmar queda en borrador.
 

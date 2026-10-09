@@ -1,6 +1,6 @@
 ---
 // Raíz: elige idioma según el navegador (por defecto español).
-import { localeNames, locales } from '../i18n/config';
+import { htmlLang, localeNames, locales } from '../i18n/config';
 ---
 
 <!doctype html>
@@ -20,11 +20,11 @@ import { localeNames, locales } from '../i18n/config';
   </head>
   <body>
     <ul>
-      {locales.map((l) => <li><a href={`/${l}`} lang={l} hreflang={l}>{localeNames[l]}</a></li>)}
+      {locales.map((l) => <li><a href={`/${l}`} lang={htmlLang[l]} hreflang={htmlLang[l]}>{localeNames[l]}</a></li>)}
     </ul>
     <script is:inline>
       var l = (navigator.language || 'es').toLowerCase();
-      var target = l.indexOf('gsw') === 0 || l === 'de-ch' ? '/gsw' : l.indexOf('en') === 0 ? '/en' : '/es';
+      var target = l.indexOf('de') === 0 ? '/de' : l.indexOf('en') === 0 ? '/en' : '/es';
       location.replace(target);
     </script>
   </body>

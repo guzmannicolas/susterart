@@ -7,7 +7,7 @@ export default defineConfig({
   output: 'static',
   integrations: [
     sitemap({
-      i18n: { defaultLocale: 'es', locales: { es: 'es-AR', en: 'en-GB', gsw: 'gsw' } },
+      i18n: { defaultLocale: 'es', locales: { es: 'es-AR', en: 'en-GB', de: 'de-CH' } },
     }),
   ],
   trailingSlash: 'never',

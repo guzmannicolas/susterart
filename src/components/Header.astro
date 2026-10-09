@@ -1,5 +1,5 @@
 ---
-import { localeNames, locales, type Locale } from '../i18n/config';
+import { htmlLang, localeNames, locales, type Locale } from '../i18n/config';
 import { ui } from '../i18n/ui';
 import { localizedPath, switchLocale } from '../i18n/url';
 
@@ -31,8 +31,8 @@ const isCurrent = (l: { path: string; href: string }) =>
             <li>
               <a
                 href={switchLocale(Astro.url.pathname, l)}
-                lang={l}
-                hreflang={l}
+                lang={htmlLang[l]}
+                hreflang={htmlLang[l]}
                 aria-current={l === lang ? 'true' : undefined}
               >
                 {localeNames[l]}

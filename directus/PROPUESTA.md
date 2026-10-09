@@ -7,7 +7,7 @@
 
 - **Todas las imágenes se administran en Directus** (campos de tipo *file*), incluidos el favicon y la imagen para compartir en redes. En el código no hay imágenes fijas; el único respaldo es `public/favicon.svg` si no se carga uno.
 - **Cada imagen tiene texto alternativo (`alt_imagen`) traducible**, para accesibilidad.
-- **Multilingüe: `es` (por defecto), `en` y `gsw` (alemán suizo)** con el patrón estándar de traducciones de Directus. Si falta una traducción, el sitio muestra el texto en español campo por campo.
+- **Multilingüe: `es` (por defecto), `en` y `de` (alemán estándar de Suiza, `de-CH`, ortografía suiza sin ß)** con el patrón estándar de traducciones de Directus. Si falta una traducción, el sitio muestra el texto en español campo por campo.
 - Las imágenes dentro de textos markdown (blog) pueden insertarse con la URL de un archivo de Directus: `![alt](https://TU-DIRECTUS/assets/<id>)`.
 
 ## Cambios respecto al modelo original (para que los apruebes)
@@ -18,15 +18,15 @@
 4. **`contacto`** suma `nombre_autoria` (nombre del aviso de derechos de autor).
 5. **`cursos`** suma `moneda` (ARS | EUR).
 6. **`ajustes` (singleton, nuevo)**: `favicon`, `imagen_compartir` y descripción del sitio (traducible).
-7. `slug` es único y **no se traduce** (la misma URL en los tres idiomas: `/es/obras/azul`, `/en/obras/azul`, `/gsw/obras/azul`).
+7. `slug` es único y **no se traduce** (la misma URL en los tres idiomas: `/es/obras/azul`, `/en/obras/azul`, `/de/obras/azul`).
 
 ## Idiomas
 
 ### `languages`
 | Campo | Tipo | Notas |
 |---|---|---|
-| code | string (**clave primaria**) | `es`, `en`, `gsw` |
-| name | string | Español, English, Schwiizerdütsch |
+| code | string (**clave primaria**) | `es`, `en`, `de` |
+| name | string | Español, English, Deutsch |
 
 Todas las colecciones `*_translations` tienen: `id` (autoincremental), `<coleccion>_id` (M2O a la colección), `languages_code` (M2O a `languages`) y los campos traducibles. En cada colección principal el campo `translations` es un O2M hacia su colección de traducciones (con la interfaz *Translations* de Directus).
 
@@ -104,7 +104,7 @@ Todas las colecciones `*_translations` tienen: `id` (autoincremental), `<colecci
 
 ## Textos fijos de la interfaz
 
-Menús, etiquetas ("Año", "Técnica", "Adquirir"…), estados y el aviso de copyright viven en el código (`src/i18n/ui.ts`), no en Directus. Las versiones en `en` y `gsw` son **borradores** que debe revisar una persona nativa. El aviso de copyright toma el nombre de `contacto.nombre_autoria`.
+Menús, etiquetas ("Año", "Técnica", "Adquirir"…), estados y el aviso de copyright viven en el código (`src/i18n/ui.ts`), no en Directus. Las versiones en `en` y `de` son **borradores** que debe revisar una persona nativa. El aviso de copyright toma el nombre de `contacto.nombre_autoria`.
 
 ## Permisos (seguridad)
 
@@ -124,7 +124,7 @@ El sitio es estático: un cambio en Directus se ve tras un nuevo deploy. Crear u
 
 Ver `seed/*.json` (importable más adelante; los ítems traen `translations` anidadas). Criterios:
 
-- Solo se carga el texto en **español** (`es`). Las traducciones a `en` y `gsw` se completan en Directus (ver pendientes).
+- Solo se carga el texto en **español** (`es`). Las traducciones a `en` y `de` se completan en Directus (ver pendientes).
 - Todas las **obras** quedan en `draft`: faltan fotos y años/técnicas. Se publican a medida que se suban las imágenes.
 - Todos los **cursos** con `activo = false` hasta confirmar fechas y precios.
 - La entrada **Somos** queda en `draft` y sin contenido (el texto del poema no fue entregado).

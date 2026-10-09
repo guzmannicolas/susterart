@@ -1,5 +1,5 @@
 /** Idiomas del sitio. Los códigos coinciden con `languages.code` en Directus. */
-export const locales = ['es', 'en', 'gsw'] as const;
+export const locales = ['es', 'en', 'de'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'es';
 
@@ -7,14 +7,21 @@ export const defaultLocale: Locale = 'es';
 export const localeNames: Record<Locale, string> = {
   es: 'Español',
   en: 'English',
-  gsw: 'Schwiizerdütsch',
+  de: 'Deutsch',
 };
 
-/** Locale de Intl para fechas y precios (Intl no conoce `gsw`: se usa de-CH). */
+/** Valor del atributo `lang` de <html> (alemán estándar de Suiza = de-CH). */
+export const htmlLang: Record<Locale, string> = {
+  es: 'es-AR',
+  en: 'en-GB',
+  de: 'de-CH',
+};
+
+/** Locale de Intl para fechas y precios. */
 export const intlLocale: Record<Locale, string> = {
   es: 'es-AR',
   en: 'en-GB',
-  gsw: 'de-CH',
+  de: 'de-CH',
 };
 
 export const isLocale = (value: string | undefined): value is Locale =>
