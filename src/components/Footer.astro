@@ -1,0 +1,65 @@
+---
+import { getContacto } from '../lib/content';
+import { directusConfigured } from '../lib/directus';
+
+const contacto = directusConfigured ? await getContacto() : null;
+const autoria = contacto?.nombre_autoria;
+const redes = [
+  { label: 'Instagram', href: contacto?.instagram },
+  { label: 'YouTube', href: contacto?.youtube },
+].filter((r): r is { label: string; href: string } => Boolean(r.href));
+---
+
+<footer>
+  <div class="inner">
+    {
+      autoria && (
+        <p>
+          Todas las obras son de autoría de {autoria}, su réplica parcial o total está estrictamente prohibida.
+        </p>
+      )
+    }
+    {
+      redes.length > 0 && (
+        <ul aria-label="Redes">
+          {redes.map((r) => (
+            <li>
+              <a href={r.href} rel="noopener noreferrer" target="_blank">
+                {r.label}
+                <span class="visually-hidden"> (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2rem var(--gutter) 3rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .inner {
+    max-width: var(--max);
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem 3rem;
+  }
+  p {
+    margin: 0;
+    max-width: 36rem;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+  }
+</style>
